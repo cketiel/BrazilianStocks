@@ -132,9 +132,9 @@ master_list.csv
 
 ---
 
-## 💼 Estrategia y Uso Práctico
+## 💼 Strategy and Practical Use
 
-### 🧠 Idea Genial
+### 🧠 Great idea
 
 In the Brazilian market, many **Fundos Imobiliários (FIIs)** and **stocks** pay **monthly dividends (proventos)**. Each asset distributes on a different date, and to receive the dividend, you must hold the asset for at least **8 days** before its *ex-dividend date*.
 
@@ -200,7 +200,7 @@ Divide assets into **four groups** based on payment timing:
 
 ---
 
-### 🧭 Plan General
+### 🧭 General Plan
 
 The **general plan** maintains a weekly reinvestment cycle ensuring continuous income and growth.
 Each week, one group generates proventos while another is purchased for the next payout window.
@@ -225,7 +225,7 @@ Each week, one group generates proventos while another is purchased for the next
 
 ---
 
-### 🔗 Combinaciones Estratégicas
+### 🔗 Strategic Combinations
 
 While each group operates independently, combining them creates **optimized capital flow** and **continuous reinvestment**.
 
