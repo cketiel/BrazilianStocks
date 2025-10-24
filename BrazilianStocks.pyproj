@@ -30,7 +30,7 @@
     <Compile Include="api_key.py" />
     <Compile Include="BrazilianStocks.py" />
     <Compile Include="hardcoding_list_tickets.py" />
-    <Compile Include="history_to_json.py" />
+    <Compile Include="history_to_json%28with parameters%29.py" />
     <Compile Include="main.py" />
   </ItemGroup>
   <ItemGroup>
