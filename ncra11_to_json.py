@@ -1,6 +1,7 @@
 import requests
 from api_key import key
 import json
+import os
 
 FII = "NCRA11"
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={FII}.SAO&apikey={key}'
