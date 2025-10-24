@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4c25faff-b54c-4001-9077-9a3b9b4c154d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>hardcoding_list_tickets.py</StartupFile>
+    <StartupFile>list_1_3.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -33,6 +33,7 @@
     <Compile Include="history_to_json%28automatic%29.py" />
     <Compile Include="history_to_json%28with parameters%29.py" />
     <Compile Include="history_to_json.py" />
+    <Compile Include="list_1_3.py" />
     <Compile Include="main.py" />
   </ItemGroup>
   <ItemGroup>
