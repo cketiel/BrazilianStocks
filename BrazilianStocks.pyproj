@@ -27,6 +27,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="analysis_AGRX11.py" />
+    <Compile Include="analysis_ncra11.py" />
+    <Compile Include="analysis_VGIR11.py" />
     <Compile Include="api_key.py" />
     <Compile Include="BrazilianStocks.py" />
     <Compile Include="class_AGRX11.py" />
