@@ -36,6 +36,7 @@
     <Compile Include="list_1_2_4.py" />
     <Compile Include="list_1_3.py" />
     <Compile Include="list_2_4.py" />
+    <Compile Include="list_ticket_group.py" />
     <Compile Include="main.py" />
     <Compile Include="ncra11_to_json.py" />
     <Compile Include="read_csv.py" />
