@@ -1,13 +1,6 @@
 # 🟢 BrazilianStocks
 
-BrazilianStocks is a Python-based data analysis project that retrieves, processes, and stores financial information about **Brazilian stock market assets** (mainly FII and B3 stocks) using the [Alpha Vantage API](https://www.alphavantage.co/). [https://www.alphavantage.co/documentation/]
-
-The project can:
-
-* Download **daily** and **weekly** stock price histories.
-* Generate **CSV** and **JSON** data files for multiple stock groups.
-* Manage requests efficiently with **rate-limiting** and **error retrying**.
-* Produce a **master dataset** combining all stocks for further analysis.
+**BrazilianStocks** is a Python-based data analysis project designed to retrieve, process, and store financial information about **Brazilian stock market assets** — mainly *Fundos Imobiliários (FII)* and *B3-listed stocks* — using the [Alpha Vantage API](https://www.alphavantage.co/documentation/).
 
 ---
 
@@ -17,7 +10,7 @@ The project can:
 * ✅ Automated generation of group-based CSV files
 * ✅ Smart delay handling to comply with AlphaVantage’s free API limits (5 requests/minute)
 * ✅ JSON export for historical data
-* ✅ Modular structure for easy expansion and automation
+* ✅ Modular and extensible code structure
 
 ---
 
@@ -28,6 +21,7 @@ BrazilianStocks/
 │
 ├── api_key.py             # Contains your private API key (excluded from Git)
 ├── history_to_json.py     # Downloads historical data (daily or weekly)
+├── list_ticket_group.py   # Generates CSVs from .txt group files
 ├── main.py                # Downloads current prices for multiple groups
 ├── csv/                   # Generated CSV files are saved here
 ├── json/                  # JSON output directory for historical data
@@ -54,13 +48,13 @@ python -m venv env1
 env1\Scripts\activate    # On Windows
 ```
 
-### 3️⃣ Install required dependencies
+### 3️⃣ Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If you don’t have a `requirements.txt` yet, create one manually with:
+If you don’t have a `requirements.txt` yet, create one manually:
 
 ```bash
 pip install requests pandas
@@ -69,7 +63,7 @@ pip freeze > requirements.txt
 
 ### 4️⃣ Add your API key
 
-Create a file called `api_key.py` (this file should **not** be uploaded to GitHub) and add:
+Create a file named `api_key.py` (excluded from Git) and include:
 
 ```python
 key = "your_alphavantage_api_key_here"
@@ -105,12 +99,17 @@ list_2_4.csv
 list_random.csv
 master_list.csv
 ```
-### Example 3: Generate Ticket List
-### Example 4: Generate historical analysis
-### Example 5: Generate dividend analysis (monthly earnings) (dividend = dividend_amount * cant)
-### Example 6: Generate trading balance (trading = ganancia - total_dividend)
-### Example 7: Generate historical total balance (ganancia = saldo_final - initial_balance)
-  
+
+---
+
+### Additional Analysis Examples
+
+* **Example 3:** Generate a unified ticket list
+* **Example 4:** Generate historical analysis
+* **Example 5:** Calculate monthly dividend analysis (`dividend = dividend_amount * cant`)
+* **Example 6:** Compute trading balance (`trading = profit - total_dividend`)
+* **Example 7:** Track historical total balance (`profit = final_balance - initial_balance`)
+
 ---
 
 ## 📊 Example Output
@@ -125,314 +124,154 @@ master_list.csv
 ---
 
 ## ⚠️ Notes
-* The API has a free plan and a paid plan.
-* The **free plan** of AlphaVantage allows **5 API calls per minute**. And only 25 requests per day, and you can't use features labeled "Premium"
-  The script automatically includes delays to respect this limit.
-* Keep your `api_key.py` **private** and excluded from version control.
-* JSON and CSV outputs are **automatically organized** in folders.
 
----
-## 🧠 Idea Genial
-
-In the Brazilian stock market, there are several *fundos imobiliários* and stocks that pay **monthly dividends (proventos)**. This regular income stream encourages investors to hold such assets, as each company or fund distributes its dividends on different dates during the month.
-
-However, to qualify for these payments, investors must meet the **minimum holding period**, usually around **8 days** before the ex-dividend date. This means you must own the shares for at least that period to receive the monthly payout.
-
-### 💡 The Core Idea
-
-The “brilliant idea” behind this strategy is to **use timing between different dividend-paying assets** to double the potential monthly return using the *same capital*.
-
-For instance, if one stock pays dividends early in the month and another pays later (with a gap of at least 10 days), an investor could:
-
-1. Hold **Stock A** until its payout date, receive its dividend, and then sell it.
-2. Immediately reinvest the proceeds into **Stock B**, which has not yet reached its payout date.
-
-Since both pay in different parts of the month, the same amount of capital generates **two dividend incomes** in the same period.
-In other words, your effective return becomes the **sum of both proventos**, while still working within the time restrictions of each asset.
-
-On average, monthly proventos yield around **1%** of the stock’s price. With this strategy, that return could be **doubled** — achieving roughly **2% monthly** — by smartly rotating between two or more assets.
+* The API’s **free plan** allows 5 API calls per minute and 25 per day.
+  The script includes automatic delays to respect this limit.
+* Keep your `api_key.py` **private**.
+* JSON and CSV outputs are **automatically organized** into folders.
 
 ---
 
-### ⚙️ Supporting Definitions & Formulas
+## 💼 Estrategia y Uso Práctico
 
-Let’s define key variables used in this logic:
+### 🧠 Idea Genial
 
-| Symbol    | Description                        |
-| :-------- | :--------------------------------- |
-| **pc**    | Purchase price                     |
-| **pv**    | Selling price                      |
-| **g**     | Profit per share                   |
-| **cant**  | Number of shares                   |
-| **net**   | Net profit = (g × cant)            |
-| **total** | Total value after sale = cant × pv |
+In the Brazilian market, many **Fundos Imobiliários (FIIs)** and **stocks** pay **monthly dividends (proventos)**. Each asset distributes on a different date, and to receive the dividend, you must hold the asset for at least **8 days** before its *ex-dividend date*.
 
-The fundamental condition to maintain profitability is:
+The **brilliant idea** behind this system is to **rotate capital** between assets with different payment dates — effectively earning **two or more dividends with the same capital** in one month.
 
-[
-p_1 + p_2 > d_1 + a_2 + c_1 + c_2
-]
+**Example workflow:**
+
+1. Hold **Stock A** until it pays its dividend, receive payment, and sell it.
+2. Immediately reinvest into **Stock B**, which pays later in the same month.
+
+If the difference between their payment dates is at least 10 days, the investor earns **two sets of proventos** with the same money.
+
+Average dividend yields in Brazil hover around **1% per month**. Using this rotation logic, monthly returns can **double** to approximately **2%**, without adding new capital.
+
+---
+
+#### 🔢 Key Formulas
+
+| Symbol    | Description             |
+| :-------- | :---------------------- |
+| **pc**    | Purchase price          |
+| **pv**    | Selling price           |
+| **g**     | Profit per share        |
+| **cant**  | Number of shares        |
+| **net**   | Net profit = g × cant   |
+| **total** | Total value = cant × pv |
+
+The **profit condition** is:
+
+```
+p₁ + p₂ > d₁ + a₂ + c₁ + c₂
+```
 
 Where:
 
-* **p₁** = dividend (provento) from Stock 1
-* **p₂** = dividend (provento) from Stock 2
-* **d₁** = price drop after Stock 1 payout
+* **p₁**, **p₂** = dividends from stocks 1 and 2
+* **d₁** = drop after Stock 1 payment (if pv₁ < pc₁)
 * **a₂** = price increase before buying Stock 2
-* **c₁, c₂** = transaction costs (sell and buy commissions)
-
-**Simplified conditions:**
-
-* ( d₁ = pc₁ - pv₁ ), but if ( pv₁ > pc₁ ) then ( d₁ = 0 )
-* ( a₂ = pv₂ - pc₂ ), but initially ( a₂ = 0 ) since Stock 2 hasn’t been sold yet
+* **c₁**, **c₂** = commissions for selling and buying
 
 ---
 
 ### 💰 Commissions and Optimization
 
-Investigate **whether c₁ and c₂ are fixed or variable**, depending on the broker or trading platform.
-Some brokers charge differently for limit orders versus market orders. Choosing the right broker can optimize profitability.
-
-It’s advisable to **rebalance weekly** using smart trading automation (such as a *grid trading bot* or strategies similar to **Aladdin by BlackRock**) to manage buy/sell timing intelligently.
+Analyze whether commissions (**c₁**, **c₂**) are fixed or vary by broker.
+Using **limit orders** instead of market orders can lower costs.
+Weekly **rebalancing** via automation (e.g., *grid trading bots* or **Aladdin by BlackRock-inspired algorithms**) ensures disciplined execution.
 
 ---
 
 ### 📈 Portfolio Strategy Overview
 
-To sustain continuous reinvestment, the assets are divided into **four groups** based on their dividend payment dates:
+Divide assets into **four groups** based on payment timing:
 
-| Group  | Payment Window | Investment Goal        |
-| :----- | :------------- | :--------------------- |
-| **S1** | Around day 30  | Can buy until the 30th |
-| **S2** | Around day 7   | Can buy until the 7th  |
-| **S3** | Around day 12  | Can buy until the 12th |
-| **S4** | Around day 17  | Can buy until the 17th |
+| Group  | Approx. Date | Description         |
+| :----- | :----------- | :------------------ |
+| **S1** | Day 30       | End-of-month payers |
+| **S2** | Day 7        | Early-month payers  |
+| **S3** | Day 12       | Mid-month payers    |
+| **S4** | Day 17       | Third-week payers   |
 
-This structure allows receiving **weekly proventos**, enabling consistent reinvestment and compounding returns.
-Ideally, allocate **at least 1,000 BRL** per group to maintain balance.
-
-**Key rule:**
-
-> Always re-buy “good” stocks when their price drops below your average cost — that’s when they’re “in the red”.
+💡 **Tip:** Always re-buy quality stocks when they drop below your average cost.
 
 ---
 
-### 🧩 Example Trading Plan
+### 🧭 Plan General
 
-**S1 (End of month)**
+The **general plan** maintains a weekly reinvestment cycle ensuring continuous income and growth.
+Each week, one group generates proventos while another is purchased for the next payout window.
 
-* Sell: `LIFE11`, `RURA`, `CACR11`
-* Buy: `VGIA11`, `VGIR11`, `NAVT11`, `DCRA11`
+#### 🔁 Core Principles
 
-**S2 (Early month)**
+1. **Weekly Rebalancing** — Review which assets to sell and buy weekly.
+2. **Continuous Reinvestment** — Reinvest dividends into the next group immediately.
+3. **Buy the Dip** — Re-acquire good assets below average cost.
+4. **Automate When Possible** — Use bots or scripts for data-driven rotation.
 
-* Sell: `DCRA11`, `AGRX11`, `RZAG11`, `XPCA11`
-* Buy: `NCRA11`
+#### 🧮 Reinvestment Windows
 
-**S3 (Mid-month)**
+| Group  | Last Buy Date | Dividend Period | Objective          |
+| :----- | :------------ | :-------------- | :----------------- |
+| **S1** | Day 30        | End of month    | Start of rotation  |
+| **S2** | Day 7         | Early month     | Early reinvestment |
+| **S3** | Day 12        | Mid-month       | Growth phase       |
+| **S4** | Day 17        | Third week      | Cycle completion   |
 
-* Sell: `VGIA11`, `VGIR11`, `NAVT11`
-* Buy: `CACR11`
-
-**S4 (Third week)**
-
-* Sell: `NCRA11`
-* Buy: `AGRX11`, `RZAG11`, `XPCA11`, `LIFE11`, `RURA`
-
----
-
-### 📊 Practical Benefits
-
-* Weekly dividend inflows and reinvestment.
-* Dual provento earnings with the same capital.
-* Portfolio diversification by timing rather than by sector.
-* Smart rebalancing using data-driven signals.
-
-This approach transforms passive income investing into a **dynamic rotation strategy**, aiming for **consistent monthly compounding** with minimal idle capital.
-
-## 🧭 Plan General
-
-The **general plan** of this strategy is to maintain an active yet structured investment cycle that allows continuous income, reinvestment, and growth — all based on the timing of dividend payments from different asset groups.
-
-The portfolio is strategically divided into **four groups (S1, S2, S3, S4)** according to their *dividend payment dates*.
-This ensures that every week of the month there is at least one group generating proventos, creating a **weekly income flow**.
+**Minimum capital per group:** 1,000 BRL.
 
 ---
 
-### 🔁 Core Principles
+### 🔗 Combinaciones Estratégicas
 
-1. **Weekly Rebalancing**
-   Every week, the portfolio is reviewed to decide which assets to sell and which to buy based on:
+While each group operates independently, combining them creates **optimized capital flow** and **continuous reinvestment**.
 
-   * Dividend payment schedules.
-   * Price movements and market conditions.
-   * Profit-taking or re-entry opportunities.
+#### ⚖️ Combination 1 — S1–S3
 
-2. **Reinvesting Smartly**
-   Dividends and sale proceeds are immediately reinvested into the next eligible group (e.g., selling from S1 → buying in S2).
-   This keeps capital working continuously without idle periods.
+Balances end-of-month and mid-month cycles.
+🟢 Stable income, 2x capital use per month.
+🔹 Best for moderate-risk investors.
 
-3. **Re-buying Good Stocks**
-   Always re-purchase **high-quality assets** when their price drops below the average purchase cost (when they are “in the red”).
-   This increases position size at a discount, lowering the average cost and improving long-term yield potential.
+#### 🔁 Combination 2 — S2–S4
 
-4. **Automated Rebalancing**
-   Whenever possible, use **automation tools** such as a *grid trading bot* or intelligent allocation algorithms inspired by **Aladdin by BlackRock**.
-   These tools help optimize buy/sell timing and rebalance the portfolio with data-driven precision.
+Bridges early-month and third-week payers.
+🟢 Earn twice monthly, ~10-day gap between cycles.
+🔹 Best for active dividend rotators.
 
----
+#### 🧠 Combination 3 — S1–S2–S4
 
-### 🧮 Investment Logic
+Three-stage reinvestment cycle (Day 30 → Day 7 → Day 17).
+🟢 Near-continuous compounding with 3 payouts per month.
+🔹 Best for advanced or automated strategies.
 
-Each group has a **specific reinvestment window**, defined by the date before its dividend payment.
+#### 📊 Comparative Overview
 
-| Group  | Latest Buy Date | Dividend Frequency | Main Objective         |
-| :----- | :-------------- | :----------------- | :--------------------- |
-| **S1** | Day 30          | End of month       | Prepare for next cycle |
-| **S2** | Day 7           | Early month        | Capture early payers   |
-| **S3** | Day 12          | Mid-month          | Mid-cycle accumulation |
-| **S4** | Day 17          | Third week         | Complete the cycle     |
-
-To ensure consistent returns, keep **a minimum of 1,000 BRL per group**.
-This balance allows steady reinvestment and sufficient liquidity to take advantage of short-term opportunities.
-
----
-
-### 📊 Trading and Execution Strategy
-
-* Maintain three main **rotation sets**:
-
-  * Group **(1-2-4)**: Focused on assets with overlapping payment gaps of ~10 days.
-  * Group **(1-3)**: Balances monthly cycles with alternating weeks.
-  * Group **(2-4)**: Provides mid-month reinforcement for compound growth.
-
-* **Example flow:**
-
-  * Week 1 → Sell S1, Buy S2
-  * Week 2 → Sell S2, Buy S3
-  * Week 3 → Sell S3, Buy S4
-  * Week 4 → Sell S4, Buy S1
-
-This rotation ensures that capital is constantly moving toward the next profitable window.
-
----
-
-### 🤖 Automation and Risk Control
-
-* Implement a **grid trading bot** or rule-based script that automates:
-
-  * Sell signals when dividends are paid.
-  * Buy signals based on price thresholds and group timing.
-  * Weekly rebalancing decisions using live market data.
-
-* Introduce **smart safeguards** such as:
-
-  * Minimum holding days (≥8 days).
-  * Stop-loss rules for excessive price drops.
-  * Profit-locking triggers to preserve gains.
-
----
-
-### 🎯 Strategic Goals
-
-* Achieve **weekly dividend income** using time-based diversification.
-* Double monthly returns by compounding multiple proventos with the same capital.
-* Maintain low idle cash and high reinvestment efficiency.
-* Build a semi-automated, intelligent trading system inspired by professional asset management frameworks.
-
----
-
-This plan sets the foundation for a **sustainable dividend rotation model**, where capital efficiency and timing precision replace speculation.
-It’s not about chasing price movements — it’s about **orchestrating consistent cash flow** through disciplined rebalancing.
-
-## 🔗 Combinaciones Estratégicas
-
-While each group (S1, S2, S3, S4) is designed to operate independently based on its dividend schedule, the true optimization of this system emerges when **strategic combinations** between groups are executed.
-These combinations allow for **smoother capital rotation**, **continuous reinvestment**, and **optimized yield compounding** throughout the month.
-
----
-
-### ⚖️ Combination 1 — **S1–S3**
-
-* **Objective:** Balance end-of-month and mid-month payers to maintain cash flow stability.
-* **Mechanism:**
-
-  * Sell assets from **S1** right after their dividend payout (around day 30).
-  * Immediately reinvest into **S3**, which typically pays mid-month (around day 12).
-* **Benefit:** Capital is reused twice per month — once at the end, once mid-month — ensuring nearly no idle periods.
-* **Ideal for:** Medium-risk investors seeking stable, recurring reinvestment cycles.
-
----
-
-### 🔁 Combination 2 — **S2–S4**
-
-* **Objective:** Create a reinvestment bridge between early-month and third-week payers.
-* **Mechanism:**
-
-  * Sell **S2** holdings after early-month payouts (around day 7).
-  * Use those proceeds to buy **S4**, which typically pays around day 17.
-* **Benefit:** Captures proventos twice per month, roughly every 10 days apart — aligning perfectly with the 8-day minimum holding requirement.
-* **Ideal for:** Aggressive dividend rotators aiming for biweekly yield acceleration.
-
----
-
-### 🧠 Combination 3 — **S1–S2–S4**
-
-* **Objective:** Execute a **three-stage reinvestment cycle** to maintain near-continuous capital flow.
-* **Mechanism:**
-
-  1. **Start with S1:** Receive dividends and sell around day 30.
-  2. **Reinvest into S2:** Hold and collect around day 7.
-  3. **Reinvest again into S4:** Capture third-week payments around day 17.
-* **Benefit:** This is the most efficient rotation, achieving **three dividend payouts within one month** using the same capital.
-  It effectively creates a “dividend grid” where every week capital is active and compounding.
-* **Ideal for:** Advanced investors or automated trading bots applying **grid trading logic** for maximum yield optimization.
-
----
-
-### ⚙️ Strategic Integration
-
-These combinations can be **manually managed** or **automated** through scripts or bots that:
-
-* Track each group’s expected payment dates.
-* Trigger sell/buy operations according to the defined calendar.
-* Optimize transaction timing and reduce commission overlap.
-
-The **grid-based approach** also allows adaptive scaling — if one group underperforms, its capital can be reallocated dynamically to another combination that maintains positive yield momentum.
-
----
-
-### 📈 Outcome
-
-| Combination  | Avg. Monthly Rotations | Expected Yield Gain     | Risk Level  |
-| :----------- | :--------------------- | :---------------------- | :---------- |
-| **S1–S3**    | 2x                     | +80–100% of base yield  | Low         |
-| **S2–S4**    | 2x                     | +100–120% of base yield | Medium      |
-| **S1–S2–S4** | 3x                     | +150–180% of base yield | Medium–High |
-
-The ultimate goal is to **synchronize dividend cycles** to extract maximum efficiency from the same capital, transforming temporal diversification into a source of **compound growth and stable income**.
-
----
-
-By mastering these combinations, investors can operate a **continuous dividend loop**, where money never rests — it flows, earns, and reinvests, just like a professional portfolio managed by an intelligent algorithm.
+| Combination  | Avg. Monthly Rotations | Expected Yield Gain | Risk        |
+| :----------- | :--------------------- | :------------------ | :---------- |
+| **S1–S3**    | 2x                     | +80–100%            | Low         |
+| **S2–S4**    | 2x                     | +100–120%           | Medium      |
+| **S1–S2–S4** | 3x                     | +150–180%           | Medium–High |
 
 ---
 
 ## 🧩 Future Enhancements
 
 * Add database persistence (SQLite or PostgreSQL)
-* Integrate scheduling with `cron` or `Task Scheduler`
-* Create visualization dashboards with `Plotly` or `Matplotlib`
-* Add command-line flags to export Excel or Parquet files
-* Add Bots for data visualization, notification and alert agents
-* Add Customized applications (desktop, web and/or app for Android/IO mobiles) to obtain maximum profits, making use of these analyzes and applying group strategies
+* Integrate task scheduling (`cron`, Task Scheduler)
+* Build dashboards (Plotly, Matplotlib)
+* Add CLI export options (Excel, Parquet)
+* Implement bot-based alerts and analytics
+* Create desktop/web/mobile apps using the analytical core
 
 ---
 
 ## 📜 License
 
 No license has been defined yet.
-You can add one later by creating a file named `LICENSE` (MIT, Apache 2.0, etc.).
+You can add one later by creating a `LICENSE` file (MIT, Apache 2.0, etc.).
 
 ---
 
