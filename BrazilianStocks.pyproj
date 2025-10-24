@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4c25faff-b54c-4001-9077-9a3b9b4c154d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>history_to_json.py</StartupFile>
+    <StartupFile>hardcoding_list_tickets.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,6 +29,7 @@
   <ItemGroup>
     <Compile Include="api_key.py" />
     <Compile Include="BrazilianStocks.py" />
+    <Compile Include="hardcoding_list_tickets.py" />
     <Compile Include="history_to_json.py" />
     <Compile Include="main.py" />
   </ItemGroup>

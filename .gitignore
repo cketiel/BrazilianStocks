@@ -9,6 +9,8 @@ __pycache__/
 # Archivos privados / secretos
 api_key.py
 
+download_log.txt
+
 # Archivos de Visual Studio
 .vs/
 *.user
