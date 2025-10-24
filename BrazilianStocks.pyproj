@@ -41,6 +41,10 @@
     <Compile Include="class_VGIR11.py" />
     <Compile Include="display_json.py" />
     <Compile Include="hardcoding_list_tickets.py" />
+    <Compile Include="history.py" />
+    <Compile Include="history_1_2_4.py" />
+    <Compile Include="history_1_3.py" />
+    <Compile Include="history_2_4.py" />
     <Compile Include="history_to_json%28automatic%29.py" />
     <Compile Include="history_to_json%28with parameters%29.py" />
     <Compile Include="history_to_json.py" />
@@ -50,8 +54,12 @@
     <Compile Include="list_ticket_group.py" />
     <Compile Include="list_ticket_group_and_master_all.py" />
     <Compile Include="main.py" />
+    <Compile Include="m_1_2_4.py" />
+    <Compile Include="m_2_4.py" />
+    <Compile Include="NCRA11.py" />
     <Compile Include="ncra11_to_json.py" />
     <Compile Include="read_csv.py" />
+    <Compile Include="read_json_and_display_content.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="json\" />
