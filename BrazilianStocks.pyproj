@@ -48,6 +48,9 @@
   <ItemGroup>
     <Content Include="requirements.txt" />
     <Content Include="tickets.txt" />
+    <Content Include="ticket_group\1_2_4.txt" />
+    <Content Include="ticket_group\1_3.txt" />
+    <Content Include="ticket_group\2_4.txt" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env1\">
