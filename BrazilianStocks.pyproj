@@ -37,6 +37,7 @@
     <Compile Include="list_1_3.py" />
     <Compile Include="list_2_4.py" />
     <Compile Include="main.py" />
+    <Compile Include="ncra11_to_json.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="json\" />
