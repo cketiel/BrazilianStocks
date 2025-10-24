@@ -36,6 +36,7 @@
     <Compile Include="class_RURA11.py" />
     <Compile Include="class_VGIA11.py" />
     <Compile Include="class_VGIR11.py" />
+    <Compile Include="display_json.py" />
     <Compile Include="hardcoding_list_tickets.py" />
     <Compile Include="history_to_json%28automatic%29.py" />
     <Compile Include="history_to_json%28with parameters%29.py" />
