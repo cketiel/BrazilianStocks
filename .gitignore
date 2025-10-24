@@ -6,6 +6,24 @@ __pycache__/
 # C extensions
 *.so
 
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+.env/
+venv/
+
 # Distribution / packaging
 .Python
 build/
