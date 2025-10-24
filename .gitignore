@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Archivos privados / secretos
+api_key.py
+
 # Archivos de Visual Studio
 .vs/
 *.user
