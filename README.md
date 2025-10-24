@@ -1,6 +1,6 @@
 # 🟢 BrazilianStocks
 
-BrazilianStocks is a Python-based data analysis project that retrieves, processes, and stores financial information about **Brazilian stock market assets** (mainly FII and B3 stocks) using the [Alpha Vantage API](https://www.alphavantage.co/).
+BrazilianStocks is a Python-based data analysis project that retrieves, processes, and stores financial information about **Brazilian stock market assets** (mainly FII and B3 stocks) using the [Alpha Vantage API](https://www.alphavantage.co/). [https://www.alphavantage.co/documentation/]
 
 The project can:
 
@@ -125,8 +125,8 @@ master_list.csv
 ---
 
 ## ⚠️ Notes
-
-* The **free plan** of AlphaVantage allows **5 API calls per minute**. And only 25 requests per day.
+* The API has a free plan and a paid plan.
+* The **free plan** of AlphaVantage allows **5 API calls per minute**. And only 25 requests per day, and you can't use features labeled "Premium"
   The script automatically includes delays to respect this limit.
 * Keep your `api_key.py` **private** and excluded from version control.
 * JSON and CSV outputs are **automatically organized** in folders.
