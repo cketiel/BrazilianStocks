@@ -43,6 +43,7 @@
   <ItemGroup>
     <Folder Include="json\" />
     <Folder Include="csv\" />
+    <Folder Include="ticket_group\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
